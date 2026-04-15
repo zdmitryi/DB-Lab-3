@@ -3,20 +3,19 @@ CREATE OR REPLACE FUNCTION sync_quantity()
 BEGIN
     IF (TG_OP = 'INSERT') THEN
         UPDATE "group"
-        SET quantity = quantity + 1
+        SET quantity_of_inventors = quantity_of_inventors + 1
         WHERE id = NEW.group_id;
     ELSIF (TG_OP = 'DELETE') THEN
         UPDATE "group"
-        SET quantity = quantity - 1
+        SET quantity_of_inventors = quantity_of_inventors - 1
         WHERE id = OLD.group_id;
     ELSIF (TG_OP = 'UPDATE') THEN
         IF (NEW.group_id <> OLD.group_id) THEN
             UPDATE "group"
-            SET quantity = quantity + 1
+            SET quantity_of_inventors = quantity_of_inventors + 1
             WHERE id = NEW.group_id;
-
             UPDATE "group"
-            SET quantity = quantity - 1
+            SET quantity_of_inventors = quantity_of_inventors - 1
             WHERE id = OLD.group_id;
         END IF;
     END IF;
